@@ -1,38 +1,52 @@
-"""This class represents an event that the user can add.
-"""
+
 from datetime import datetime
 import random
+
+"""This class represents an event that the user can add.
+
+Attributes:
+    name (str): name of the event
+    date (str): date of the event
+    time (int): time of the event
+    location (str): location of the event
+    repeats (str): how often the event repeats
+    alerts (boolean): whether alerts are on or off for the event    
+"""
+
 class Event:
     def __init__(self,name,date,time=None, location=None,repeats=None, alerts=False):
         self.name = name
-        self.date =self.validate_date(date)
+        self.date = self.validate_date(date)
         self.time = self.validate_time(time)
         self.location = location
         self.repeats = repeats
         self.alerts = alerts
 
-""" This method Validates date 
+    """This method validates if the date is in the correct format.
 
     Arguments:
         date (str): date of event
-"""
-def validate_date(self,date):
-    try: 
-        datetime.strptime(date, '%m/%d,%Y')
-        #Validate date format ( two digit for month,day,and four digit for years)
-        parts = date.split('/')
-        if len(parts) == 3 and len(parts [0]) == 2 and len(parts[1]) == 2 and len(parts[2]) == 4:
-           in(parts [0]), int(parts[1]), int(part[2])
-            return date
-        else: 
-            raise ValueError("Date format should be MM/DD/YYYY")
-    except ValueError:
-        raise ValueError("Date format should be MM/DD/YYYY")
+    """
+    def validate_date(self,date):
 
-""" This method validate time 
+        try: 
+            datetime.strptime(date, '%m/%d,%Y')
+            #Validate date format ( two digit for month,day,and four digit for years)
+            parts = date.split('/')
+            if len(parts) == 3 and len(parts [0]) == 2 and len(parts[1]) == 2 and len(parts[2]) == 4:
+               in(parts [0]), int(parts[1]), int(part[2])
+                return date
+            else: 
+                raise ValueError("Date format should be MM/DD/YYYY")
+        except ValueError:
+            raise ValueError("Date format should be MM/DD/YYYY")
+
+    
+    """This method validates if the time is in the correct format.
+    
     Arguments:
         time (str): Time of event
-"""
+    """
     def validate_time(self, time):
         if time is None:
             return None
@@ -44,31 +58,32 @@ def validate_date(self,date):
             raise ValueError("Time format should be in HM, i.e 1830")
 
 
-"""This class represents the calendar that the user will access
-and modify
+"""This class represents the calendar that the user will access and modify.
 
-    Attributes:
-        name (str): name of the clandar
-        events (dict): a dictionary of events the user has added
+Attributes:
+    name (str): name of the calendar
+    events (dict): a dictionary of events the user has added
 """
 class Planner:
     def __init__(self,name):
+        self.name = name
         self.events = dict()
 
+    
+    def add_event(self, event):
     """This method allows the user to add events
 
-        Arguments:
-            name (str): name of the calendar 
-            event (Event): an event hte user will add
-            event_name(str): name of the event
+    Arguments:
+        name (str): name of the calendar 
+        event (Event): an event the user will add
     """
-    def add_event(self, event):
         self.events.append(event)
+
 
     """This method allows the user to view their events
 
-        Arguments:
-            event (Event): an event hte user will add
+    Arguments:
+        event (Event): an event the user will add
     """
     def view_events(self):
         if not self.events:
@@ -82,18 +97,23 @@ class Planner:
             print("Location: ", event.location)
             print("Date: ", event.date)
             print()
-      """ this method allows the user to delete their events
-           Arguments: 
-               name (str): name of the event
-               event (Event): an event will add
 
-     """
-     def delete_events(self,name,event name):
+
+    """This method allows the user to delete their events
+            
+    Arguments:    
+        name (str): name of the event
+        event (Event): an event will add
+
+    """
+    def delete_events(self,name,event name):
+    
          if self.name == name:
              for idx, event in enumerate(self.events):
                  if event.name == event_name: 
                      del self.events[idx]
                      break
+
 
 if __name__ == "__main__""
    calender = Calendar("My Calender")
