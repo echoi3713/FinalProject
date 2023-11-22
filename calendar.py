@@ -1,5 +1,7 @@
 """This class represents an event that the user can add.
 """
+from datetime import datetime
+import random
 class Event:
     def __init__(self,name,date,time=None, location=None,repeats=None, alerts=False):
         self.name = name
