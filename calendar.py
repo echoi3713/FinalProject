@@ -75,8 +75,8 @@ class Planner:
         name (str): name of the calendar 
         event (Event): an event the user will add
     """
-    def add_event(self, event):
-        self.events.append(event)
+    def add_event(self, event_name, event):
+         self.events[event_name] = event
 
     """This method allows the user to view their events
 
@@ -89,7 +89,7 @@ class Planner:
         else:
             print("Upcoming events: ")
 
-        for event in self.events:
+        for event_name, event in self.items():
             print("==========================")
             print("Title: ", event.title)
             print("Location: ", event.location)
