@@ -1,129 +1,65 @@
-
-from datetime import datetime
-import random
-
-"""This class represents an event that the user can add.
-
-Attributes:
-    name (str): name of the event
-    date (str): date of the event
-    time (int): time of the event
-    location (str): location of the event
-    repeats (str): how often the event repeats
-    alerts (boolean): whether alerts are on or off for the event    
-"""
-
-class Event:
-    def __init__(self,name,date,time=None, location=None,repeats=None, alerts=False):
-        self.name = name
-        self.date = self.validate_date(date)
-        self.time = self.validate_time(time)
-        self.location = location
-        self.repeats = repeats
-        self.alerts = alerts
-
-    """This method validates if the date is in the correct format.
-
-    Arguments:
-        date (str): date of event
-    """
-    def validate_date(self,date):
-
-        try: 
-            datetime.strptime(date, '%m/%d/%Y')
-            #Validate date format ( two digit for month,day,and four digit for years)
-            parts = date.split('/')
-            if len(parts) == 3 and len(parts [0]) == 2 and len(parts[1]) == 2 and len(parts[2]) == 4:
-                int(parts [0]), int(parts[1]), int(parts[2])
-                return date
-            else: 
-                raise ValueError("Date format should be MM/DD/YYYY")
-        except ValueError:
-            raise ValueError("Date format should be MM/DD/YYYY")
-
-    
-    """This method validates if the time is in the correct format.
-    
-    Arguments:
-        time (str): Time of event
-    """
-    def validate_time(self, time):
-        if time is None:
-            return None
-        try:
-            # Validate military time
-            datetime.strptime(time, '%H%M')
-            return time
-        except ValueError:
-            raise ValueError("Time format should be in HM, i.e 1830")
-
-
-"""This class represents the calendar that the user will access and modify.
-
-Attributes:
-    name (str): name of the calendar
-    events (dict): a dictionary of events the user has added
-"""
-class Planner:
-    def __init__(self,name):
+class Calendar:
+    def __init__(self, name):
         self.name = name
         self.events = dict()
-
-    """This method allows the user to add events
     
-    Arguments:
-        name (str): name of the calendar 
-        event (Event): an event the user will add
-    """
-    def add_event(self, event_name, event):
-         self.events[event_name] = event
-
-    """This method allows the user to view their events
-
-    Arguments:
-        event (Event): an event the user will add
-    """
-    def view_events(self):
-        if not self.events:
-            print("No events found")
-        else:
-            print("Upcoming events: ")
-
-        for event_name, event in self.items():
-            print("==========================")
-            print("Title: ", event.title)
-            print("Location: ", event.location)
-            print("Date: ", event.date)
-            print()
-
-
-    """This method allows the user to delete their events
+    def add_event(self, event):
+        self.events[event.name] = event
+    
+    def delete_event(self, event_name):
+        del self.events[event_name]
+    
+    def display_events(self):
+        print(self.name + ": \n")
+        for event in self.events:
+            event = self.events[event]
+            print("Event name: " + event.name)
+            print("Date: " + event.date)
             
-    Arguments:    
-        name (str): name of the event
-        event (Event): an event will add
-
-    """
-    def delete_events(self,name,event_name):
+            if (event.time==None):
+                print("Time: All day")
+            else:
+                print("Time: " + str(event.time))
+            
+            if (event.location==None):
+                print("Location: None")
+            else:
+                print("Location: " + event.location)
+            
+            if (event.recurring==None):
+                print("Recurring: Never")
+            else:
+                print("Recurring: " + event.recurring)
+            print()
+        print("---------------------------------------")
     
-         if self.name == name:
-             for idx, event in enumerate(self.events):
-                 if event.name == event_name: 
-                     del self.events[idx]
-                     break
 
-
+class Event:
+    def __init__(self, name, date, time=None, location=None, recurring=None):
+        self.name = name
+        self.date = date
+        
+        if (time!=None and time<1000):
+            time_to_string = str(time)
+            self.time = "0" + time_to_string
+        else:
+            self.time = time
+        
+        self.location = location
+        self.recurring = recurring
+    
 if __name__ == "__main__":
-    calendar = Planner("My Calender")
-    event_to_delete = None
-    for i in range(5):
-        event_name = "Event# " + str(random.randint(1, 10))
-        new_event = Event(name=event_name, date="01/01/2024", time="1830", location="Some Location", repeats="weekly", alerts=True)
-        calendar.add_event("Example", new_event, event_name)
-        event_to_delete = event_name
-    
-    calendar.view_events()
-    calendar.delete_events("My Calender", event_to_delete)
-
-    print("------------- AFTER DELETION --------------")
-    calendar.view_events()
+        calendar1 = Calendar("To Do")
+        calendar1.add_event(Event("Club Meeting", "12/11/2023", 1600, "Tawes"))
+        calendar1.add_event(Event("Work", "12/11/2023", 900, "Work", "daily"))
+        calendar1.add_event(Event("Homework", "12/13/2023", 1900, None, "weekly"))
+        calendar1.display_events()
+        calendar1.delete_event("Homework")
+        print("\nAFTER DELETION:\n")
+        calendar1.display_events()
+        
+        calendar2 = Calendar("Final Exams")
+        calendar2.add_event(Event("Math Exam", "12/18/2023", 800, "Math building"))
+        calendar2.add_event(Event("Physics Exam", "12/18/2023", 1330, "Physics building"))
+        calendar2.add_event(Event("History Exam", "12/19/2023", 1600, "Online"))
+        calendar2.display_events()
