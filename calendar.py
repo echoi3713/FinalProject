@@ -30,11 +30,11 @@ class Event:
     def validate_date(self,date):
 
         try: 
-            datetime.strptime(date, '%m/%d,%Y')
+            datetime.strptime(date, '%m/%d/%Y')
             #Validate date format ( two digit for month,day,and four digit for years)
             parts = date.split('/')
             if len(parts) == 3 and len(parts [0]) == 2 and len(parts[1]) == 2 and len(parts[2]) == 4:
-               in(parts [0]), int(parts[1]), int(part[2])
+                int(parts [0]), int(parts[1]), int(parts[2])
                 return date
             else: 
                 raise ValueError("Date format should be MM/DD/YYYY")
@@ -69,16 +69,14 @@ class Planner:
         self.name = name
         self.events = dict()
 
-    
-    def add_event(self, event):
     """This method allows the user to add events
-
+    
     Arguments:
         name (str): name of the calendar 
         event (Event): an event the user will add
     """
+    def add_event(self, event):
         self.events.append(event)
-
 
     """This method allows the user to view their events
 
@@ -106,7 +104,7 @@ class Planner:
         event (Event): an event will add
 
     """
-    def delete_events(self,name,event name):
+    def delete_events(self,name,event_name):
     
          if self.name == name:
              for idx, event in enumerate(self.events):
@@ -115,19 +113,17 @@ class Planner:
                      break
 
 
-if __name__ == "__main__""
-   calender = Calendar("My Calender")
-
+if __name__ == "__main__":
+    calendar = Planner("My Calender")
     event_to_delete = None
     for i in range(5):
         event_name = "Event# " + str(random.randint(1, 10))
         new_event = Event(name=event_name, date="01/01/2024", time="1830", location="Some Location", repeats="weekly", alerts=True)
-        calender.add_event("Example", new_event, event_name)
+        calendar.add_event("Example", new_event, event_name)
         event_to_delete = event_name
     
-    calender.view_events()
-    calender.delete_events("My Calender", event_to_delete)
+    calendar.view_events()
+    calendar.delete_events("My Calender", event_to_delete)
 
     print("------------- AFTER DELETION --------------")
-    calender.view_events()
-
+    calendar.view_events()
